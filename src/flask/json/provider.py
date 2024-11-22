@@ -6,7 +6,7 @@ if t.TYPE_CHECKING:
     from werkzeug.sansio.response import Response
     from ..sansio.app import App
 
-from .utils import _default
+from .utils import _default as _default_fn
 
 
 class JSONProvider:
@@ -108,7 +108,7 @@ class DefaultJSONProvider(JSONProvider):
     -   :class:`~markupsafe.Markup` (or any object with a ``__html__``
         method) will call the ``__html__`` method to get a string.
     """
-    default: t.Callable[[t.Any], t.Any] = staticmethod(_default)
+    default: t.Callable[[t.Any], t.Any] = staticmethod(_default_fn)
     'Apply this function to any object that :meth:`json.dumps` does\n    not know how to serialize. It should return a valid JSON type or\n    raise a ``TypeError``.\n    '
     ensure_ascii = True
     'Replace non-ASCII characters with escape sequences. This may be\n    more compatible with some clients, but can be disabled for better\n    performance and size.\n    '
