@@ -11,18 +11,6 @@ if t.TYPE_CHECKING:
     from werkzeug.sansio.response import Response
     from ..sansio.app import App
 
-def _default(o: t.Any) -> t.Any:
-    """Default JSON serializer for types that aren't supported by default."""
-    if isinstance(o, date):
-        return http_date(o)
-    if isinstance(o, (decimal.Decimal, uuid.UUID)):
-        return str(o)
-    if dataclasses.is_dataclass(o):
-        return dataclasses.asdict(o)
-    if hasattr(o, "__html__"):
-        return str(o.__html__())
-    raise TypeError(f"Object of type {type(o).__name__} is not JSON serializable")
-
 class JSONProvider:
     """A standard set of JSON operations for an application. Subclasses
     of this can be used to customize JSON behavior or use different
@@ -95,6 +83,19 @@ class JSONProvider:
         :param kwargs: Treat as a dict to serialize.
         """
         pass
+
+def _default(o: t.Any) -> t.Any:
+    """Default JSON serializer for types that aren't supported by default."""
+    if isinstance(o, date):
+        return http_date(o)
+    if isinstance(o, (decimal.Decimal, uuid.UUID)):
+        return str(o)
+    if dataclasses.is_dataclass(o):
+        return dataclasses.asdict(o)
+    if hasattr(o, "__html__"):
+        return str(o.__html__())
+    raise TypeError(f"Object of type {type(o).__name__} is not JSON serializable")
+
 
 class DefaultJSONProvider(JSONProvider):
     """Provide JSON operations using Python's built-in :mod:`json`
