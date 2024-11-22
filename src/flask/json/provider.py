@@ -1,15 +1,13 @@
 from __future__ import annotations
-import dataclasses
-import decimal
 import json
 import typing as t
-import uuid
 import weakref
-from datetime import date
-from werkzeug.http import http_date
 if t.TYPE_CHECKING:
     from werkzeug.sansio.response import Response
     from ..sansio.app import App
+
+from .utils import _default
+
 
 class JSONProvider:
     """A standard set of JSON operations for an application. Subclasses
