@@ -49,7 +49,7 @@ class JSONProvider:
             encoding to be valid JSON.
         :param kwargs: May be passed to the underlying JSON library.
         """
-        pass
+        fp.write(self.dumps(obj, **kwargs))
 
     def loads(self, s: str | bytes, **kwargs: t.Any) -> t.Any:
         """Deserialize data as JSON.
@@ -65,7 +65,7 @@ class JSONProvider:
         :param fp: A file opened for reading text or UTF-8 bytes.
         :param kwargs: May be passed to the underlying JSON library.
         """
-        pass
+        return self.loads(fp.read(), **kwargs)
 
     def response(self, *args: t.Any, **kwargs: t.Any) -> Response:
         """Serialize the given arguments as JSON, and return a
